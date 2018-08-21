@@ -10,6 +10,7 @@
 	},
 	"appid": "wx9e3d39be96f96b8f",
 	"projectname": "qft",
+	"libVersion": "2.2.3",
 	"condition": {
 		"search": {
 			"current": -1,
