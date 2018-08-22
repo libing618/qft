@@ -20,7 +20,10 @@ App({
             compressed(res) { setTimeout(function () { wx.navigateBack({ delta: 1 }) }, 2000); }
           })
         } else {
-          wx.cloud.init()
+          wx.cloud.init({
+            env:'qftrelease-b438e3',
+            traceUser:true
+          })
         };
       }
     });

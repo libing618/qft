@@ -9,28 +9,16 @@ module.exports = {
               success: function (wxuserinfo) {
                 if (wxuserinfo) {
                   wx.cloud.callFunction({                  // 调用云函数
-                    name: 'login',
-                    data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv },
-                    success: res => {
-                      console.log('[云函数] [login] user openid: ', res.result.openid)
-                      app.globalData.openid = res.result.openid
-                      if (res.result.oId) { //(errMsg == "request:ok"){
-                        wx.setStorage({ key: 'loginInfo', data: res.result })
-                        resolve(res.result)
-                      } else {
-                        reject({ ec: 2, ee: errMsg })
-                      }
-                      wx.navigateTo({
-                        url: '../userConsole/userConsole',
-                      })
-                    },
-                    fail: err => {
-                      console.error('[云函数] [login] 调用失败', err)
-                      wx.navigateTo({
-                        url: '../deployFunctions/deployFunctions',
-                      })
-                      reject({ ec: 1, ee: error })     //云端登录失败
+                    name: 'login1',
+                    data: { code: wxlogined.code, encryptedData: wxuserinfo.encryptedData, iv: wxuserinfo.iv }
+                  }).then(res => {
+                    if (res.errMsg == "request:ok"){
+                      app.globalData.openid = res.result.oId
+                      wx.setStorage({ key: 'loginInfo', data: res.result })
+                      resolve(res.result)
                     }
+                  }).catch(err => {
+                    reject({ ec: 1, ee: err })     //云端登录失败
                   })
                 }
               }
